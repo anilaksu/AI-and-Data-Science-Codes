@@ -33,7 +33,8 @@ public:
 	// Getter functions access fields in private
 	virtual vector<string> simple_tokenizer(string s) const; // Tokenizes line of data
 	virtual vector<string> columns() const;				     // Returns column names
-	virtual void outputData() const;
+	virtual void outputData() const;                         // Outputs the entire dataset
+	virtual void outputColumn(string columnName) const;      // Outputs the entire dataset
 
 private: // Private member is only accessible within a function
 

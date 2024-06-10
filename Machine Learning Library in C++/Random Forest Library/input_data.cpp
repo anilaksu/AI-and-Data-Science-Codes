@@ -19,6 +19,8 @@ DataTable::DataTable(string inputFileName)
 		this->inputVector.push_back(this->inputData);   // Raw data including column names
 	}
 
+	// Here we close the input file 
+	inputFile.close();
 	
 	// Here we output input data to check if we read it correctly
 	for (int i = 0; i < this->inputVector.size(); i++)
@@ -32,10 +34,6 @@ DataTable::DataTable(string inputFileName)
 
 	// Here we clear the input vector to open space
 	this->inputVector.clear();
-
-	for (int i = 0; i < this->dataFields.size(); i++)
-		cout << this->dataFields[i][2] << endl;
-	
 	
 }
 
@@ -72,7 +70,30 @@ void DataTable::outputData() const
 	}
 }
 
+// Returns all column names
 vector<string> DataTable::columns() const
 {
 	return this->inputTitles;
+}
+
+// A quick way to output column data.
+void DataTable::outputColumn(string columnName) const
+{
+	// Here we return the corresponding index
+	auto it = find(this->inputTitles.begin(), this->inputTitles.end(), columnName);
+
+	// If element was found 
+	if (it != this->inputTitles.end())
+	{
+
+		// calculating the index of columnName 
+		int index = it - this->inputTitles.begin();
+		// Output the data
+		for (int i = 0; i < this->dataFields.size(); i++)
+			cout << this->dataFields[i][index] << endl;
+	}
+	else {
+		// If the element is not present in the vector, print out it does not have the column name
+		cout << "You don't have such a column" << endl;
+	}
 }

@@ -13,11 +13,14 @@ int main()
 
 	DataTable weatherData("weatherFile.txt"); // Here we create data table using weather data
 
-	for (auto columnName : weatherData.columns())
-		cout << columnName << " ";
+	weatherData.outputData();
+
+	// Here we output a given column
+	weatherData.outputColumn("Temperature");
+
 	cout << endl;
 
-	weatherData.outputData();
+	
 
 	return 0;
 }
