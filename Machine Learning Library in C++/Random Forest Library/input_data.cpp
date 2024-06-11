@@ -68,12 +68,82 @@ void DataTable::outputData() const
 		// Start new line
 		cout << endl;
 	}
+	// Add an empty line to separate the next output
+	cout << endl;
 }
 
 // Returns all column names
 vector<string> DataTable::columns() const
 {
 	return this->inputTitles;
+}
+
+// A quick way to return a given column data.
+vector<string> DataTable::returnColumn(string columnName) const
+{
+	vector<string> columnData;
+	// Here we return the corresponding index
+	auto it = find(this->inputTitles.begin(), this->inputTitles.end(), columnName);
+
+	// If element was found 
+	if (it != this->inputTitles.end())
+	{
+
+		// calculating the index of columnName 
+		int index = it - this->inputTitles.begin();
+		// Output the data
+		for (int i = 0; i < this->dataFields.size(); i++)
+			columnData.push_back(this->dataFields[i][index]);
+	}
+	else {
+		// If the element is not present in the vector, print out it does not have the column name
+		cout << "You don't have such a column" << endl;
+	}
+
+	return columnData;
+}
+
+// A quick way to return unique values in a column data.
+vector<string> DataTable::returnUniques(string columnName) const
+{
+
+	vector<string> columnData = returnColumn(columnName); // Retreive a column data;
+	// Here we return the corresponding index
+	auto it = find(this->inputTitles.begin(), this->inputTitles.end(), columnName);
+
+	// Here we return unique elements
+	sort(columnData.begin(), columnData.end());		     // First sort it
+	auto uniqueData = unique(columnData.begin()
+		, columnData.end()); // Here we define it as an iterator to point out unique element
+	columnData.erase(uniqueData, columnData.end());      // Here we remove duplicates
+
+	return columnData;
+}
+
+// A quick way to return counts of unique values in a column data.
+vector<int> DataTable::returnUniqueCounts(string columnName) const
+{
+
+	vector<string> columnData = returnColumn(columnName); // Retreive a column data
+	vector<string> uniqueData = returnUniques(columnName);// Retreive unique values a column data
+	
+	vector<int> uniqueCounts;                             // Here we store the unique values
+	int counter = 0;
+
+	for (auto unique : uniqueData)
+	{
+		for (auto data : columnData)
+		{
+			if (data == unique)
+				counter++;
+			else
+				continue;
+		}
+		uniqueCounts.push_back(counter); // Here we add the count of the unique element
+		counter = 0;					 // Here we reset the counter
+	}
+
+	return uniqueCounts;
 }
 
 // A quick way to output column data.

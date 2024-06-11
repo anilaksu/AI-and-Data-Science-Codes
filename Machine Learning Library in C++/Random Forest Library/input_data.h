@@ -9,6 +9,7 @@
 #include <string>		// String Operations library
 #include <sstream>      // String Stream Library
 #include <vector>		// Vector library
+#include <algorithm>    // std::unique, std::distance
 
 using namespace std;
 
@@ -31,8 +32,13 @@ public:
 	//virtual void setHeight(double height);
 	
 	// Getter functions access fields in private
-	virtual vector<string> simple_tokenizer(string s) const; // Tokenizes line of data
-	virtual vector<string> columns() const;				     // Returns column names
+	virtual vector<string> simple_tokenizer(string s) const;		      // Tokenizes line of data
+	virtual vector<string> columns() const;							      // Returns column names
+	virtual vector<string> returnColumn(string columnName) const;         // Returns the column data
+	virtual vector<string> returnUniques(string columnName) const;		  // Returns the unique values in column data
+	virtual vector<int> returnUniqueCounts(string columnName) const;   // Returns the counts of unique values in column data
+
+	// Output functions
 	virtual void outputData() const;                         // Outputs the entire dataset
 	virtual void outputColumn(string columnName) const;      // Outputs the entire dataset
 
