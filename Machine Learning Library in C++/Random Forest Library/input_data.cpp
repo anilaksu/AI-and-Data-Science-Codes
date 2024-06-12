@@ -140,7 +140,7 @@ DataTable::DataTable(string inputFileName)
 	{
 		// Here we add a new employee as many as we want
 		Column tempColumn(columnName, returnColumn(columnName));
-		columns.push_back(&tempColumn);
+		columns.push_back(tempColumn);
 	}
 
 	// Here we clear the input vector to open space
@@ -230,9 +230,9 @@ void DataTable::printColumnSummary(string columnName) const
 		// calculating the index of columnName 
 		int index = it - this->inputTitles.begin();
 		// Output the data
-		Column *targetColumn = this->columns[index]; // Here we assign it to another address
+		//Column *targetColumn = this->columns[index]; // Here we assign it to another address
 		//targetColumn.printUniques();              
-		//this->columns[index]->printUniques();
+		this->columns[index].printUniques();
 	}
 	else {
 		// If the element is not present in the vector, print out it does not have the column name

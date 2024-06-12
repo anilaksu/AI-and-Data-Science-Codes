@@ -96,7 +96,7 @@ private: // Private member is only accessible within a function
 	string inputFileName;
 	vector<string> inputTitles;			// Here we read input table titles
 	vector<vector<string>> dataFields;  // Here we create a vector to store the data in the table form
-	vector <Column*> columns;			// Here we create a pointer vector to store all columns
+	vector <Column> columns;			// Here we create a pointer vector to store all columns
 
 }; // end of the class Data Table
 
