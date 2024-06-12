@@ -6,34 +6,145 @@
 
 #include "input_data.h"
 
+
+/*
+
+	Column Class Member Functions
+
+*/
+
+// Constructor for Column Class
+Column::Column(string columnName, vector<string> columnData)
+{
+	this->columnName = columnName; // Here we set the column name
+
+	// Here we read data line by line before separating column names and data
+	for (string data : columnData)
+		this->columnData.push_back(data);
+
+	this->uniqueValues = findUniques(); // Here we find the unique values
+	this->uniqueCounts = countUniques(); // Here we find the count of unique values
+}
+
+// Returns column data
+vector<string> Column::getColumnData() const
+{
+	return this->columnData;
+}
+
+// Print out the column data
+void Column::printColumnData() const
+{
+
+	for (auto data : this->columnData)
+		cout << data << endl;
+}
+
+// A quick way to return unique values in a column data.
+vector<string> Column::findUniques()
+{
+
+	vector<string> columnData = getColumnData();		// Retreive a column data;
+
+	// Here we return unique elements
+	sort(columnData.begin(), columnData.end());		     // First sort it
+	auto uniqueData = unique(columnData.begin()
+		, columnData.end()); // Here we define it as an iterator to point out unique element
+	columnData.erase(uniqueData, columnData.end());      // Here we remove duplicates
+
+	return columnData;
+}
+
+// Returns unique values
+vector<string> Column::getUniques() const
+{
+	return this->uniqueValues;
+}
+
+
+// A quick way to return counts of unique values in a column data.
+vector<int> Column::countUniques() 
+{
+
+	vector<int> uniqueCounts;                             // Here we store the unique values
+	int counter = 0;
+
+	for (auto unique : this->uniqueValues)
+	{
+		for (auto data : this->columnData)
+		{
+			if (data == unique)
+				counter++;
+			else
+				continue;
+		}
+		uniqueCounts.push_back(counter); // Here we add the count of the unique element
+		counter = 0;					 // Here we reset the counter
+	}
+
+	return uniqueCounts;
+}
+
+// Returns unique values
+vector<int> Column::getUniqueCounts() const
+{
+	return this->uniqueCounts;
+}
+
+// Print out the column data
+void Column::printUniques() const
+{
+
+	for (int i = 0; i < this->uniqueValues.size(); i++)
+		cout << this->uniqueValues[i] << " " << this->uniqueCounts[i] << endl;
+}
+
+/*
+
+	Data Table Class Member Functions
+
+*/
+
+
 // Constructor for Data Table Class
 DataTable::DataTable(string inputFileName)
 {
+	ifstream inputFile;                 // Here we read the input file
+	string  inputData;					// Here we create a vector to store each line in the input
+	vector<string> inputVector;			// Here we create a vector to store the raw data in the input file
+
 	this->inputFileName = inputFileName;
-	this->inputFile.open(this->inputFileName); // Here we open the name file
+	inputFile.open(this->inputFileName); // Here we open the name file
 
 	// Here we read data line by line before separating column names and data
-	while (!this->inputFile.eof())
+	while (!inputFile.eof())
 	{
-		getline(this->inputFile, this->inputData);		// get line help us to read entire line
-		this->inputVector.push_back(this->inputData);   // Raw data including column names
+		getline(inputFile, inputData);		// get line help us to read entire line
+		inputVector.push_back(inputData);   // Raw data including column names
 	}
 
 	// Here we close the input file 
 	inputFile.close();
 	
 	// Here we output input data to check if we read it correctly
-	for (int i = 0; i < this->inputVector.size(); i++)
+	for (int i = 0; i < inputVector.size(); i++)
 	{
 		if (i == 0)
-			this->inputTitles = simple_tokenizer(this->inputVector[i]);			// Here we get the titles in the table data
+			this->inputTitles = simple_tokenizer(inputVector[i]);			// Here we get the titles in the table data
 		else 
-			this->dataFields.push_back(simple_tokenizer(this->inputVector[i])); // Actual Data
+			this->dataFields.push_back(simple_tokenizer(inputVector[i])); // Actual Data
 	}	
 
+	// Here we create column pointer vector
+	for (string columnName : this->inputTitles)
+	{
+		// Here we add a new employee as many as we want
+		Column tempColumn(columnName, returnColumn(columnName));
+		columns.push_back(&tempColumn);
+	}
 
 	// Here we clear the input vector to open space
-	this->inputVector.clear();
+	inputVector.clear();
 	
 }
 
@@ -73,7 +184,7 @@ void DataTable::outputData() const
 }
 
 // Returns all column names
-vector<string> DataTable::columns() const
+vector<string> DataTable::columnNames() const
 {
 	return this->inputTitles;
 }
@@ -103,67 +214,29 @@ vector<string> DataTable::returnColumn(string columnName) const
 	return columnData;
 }
 
-// A quick way to return unique values in a column data.
-vector<string> DataTable::returnUniques(string columnName) const
+
+// A quick way to return a given column data.
+void DataTable::printColumnSummary(string columnName) const
 {
-
-	vector<string> columnData = returnColumn(columnName); // Retreive a column data;
-	// Here we return the corresponding index
-	auto it = find(this->inputTitles.begin(), this->inputTitles.end(), columnName);
-
-	// Here we return unique elements
-	sort(columnData.begin(), columnData.end());		     // First sort it
-	auto uniqueData = unique(columnData.begin()
-		, columnData.end()); // Here we define it as an iterator to point out unique element
-	columnData.erase(uniqueData, columnData.end());      // Here we remove duplicates
-
-	return columnData;
-}
-
-// A quick way to return counts of unique values in a column data.
-vector<int> DataTable::returnUniqueCounts(string columnName) const
-{
-
-	vector<string> columnData = returnColumn(columnName); // Retreive a column data
-	vector<string> uniqueData = returnUniques(columnName);// Retreive unique values a column data
 	
-	vector<int> uniqueCounts;                             // Here we store the unique values
-	int counter = 0;
 
-	for (auto unique : uniqueData)
-	{
-		for (auto data : columnData)
-		{
-			if (data == unique)
-				counter++;
-			else
-				continue;
-		}
-		uniqueCounts.push_back(counter); // Here we add the count of the unique element
-		counter = 0;					 // Here we reset the counter
-	}
-
-	return uniqueCounts;
-}
-
-// A quick way to output column data.
-void DataTable::outputColumn(string columnName) const
-{
 	// Here we return the corresponding index
 	auto it = find(this->inputTitles.begin(), this->inputTitles.end(), columnName);
+
 
 	// If element was found 
 	if (it != this->inputTitles.end())
 	{
-
 		// calculating the index of columnName 
 		int index = it - this->inputTitles.begin();
 		// Output the data
-		for (int i = 0; i < this->dataFields.size(); i++)
-			cout << this->dataFields[i][index] << endl;
+		Column *targetColumn = this->columns[index]; // Here we assign it to another address
+		//targetColumn.printUniques();              
+		//this->columns[index]->printUniques();
 	}
 	else {
 		// If the element is not present in the vector, print out it does not have the column name
 		cout << "You don't have such a column" << endl;
 	}
 }
+

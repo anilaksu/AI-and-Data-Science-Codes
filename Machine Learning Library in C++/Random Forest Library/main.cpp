@@ -18,11 +18,11 @@ int main()
 	
 	// Here we output a given column
 	string columnName = "Outlook";
-	vector<string> uniqueData = weatherData.returnUniques(columnName);	  // Retreive unique values in temperature data
-	vector<int> uniqueCount = weatherData.returnUniqueCounts(columnName); // Retreive counts of  unique values in temperature data
-	
-	for (int i = 0; i < uniqueData.size(); i++)
-		cout << uniqueData[i] << " " << uniqueCount[i] << endl;
+	weatherData.printColumnSummary(columnName);
+
+	//Column outlookColumn(columnName, weatherData.returnColumn(columnName));
+
+	//outlookColumn.printUniques();
 
 	return 0;
 }
