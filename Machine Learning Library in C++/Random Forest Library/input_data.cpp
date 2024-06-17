@@ -6,7 +6,6 @@
 
 #include "input_data.h"
 
-
 /*
 
 	Column Class Member Functions
@@ -132,7 +131,7 @@ DataTable::DataTable(string inputFileName)
 		if (i == 0)
 			this->inputTitles = simple_tokenizer(inputVector[i]);			// Here we get the titles in the table data
 		else 
-			this->dataFields.push_back(simple_tokenizer(inputVector[i])); // Actual Data
+			this->dataFields.push_back(simple_tokenizer(inputVector[i]));   // Actual Data
 	}	
 
 	// Here we create column pointer vector
@@ -214,8 +213,38 @@ vector<string> DataTable::returnColumn(string columnName) const
 	return columnData;
 }
 
-
 // A quick way to return a given column data.
+vector<Column> DataTable::returnColumns(vector<string> columnNames) const
+{
+	vector<Column> columns;
+
+	for (string columnName : columnNames)
+	{
+		// Here we return the corresponding index
+		auto it = find(this->inputTitles.begin(), this->inputTitles.end(), columnName);
+
+		// If element was found 
+		if (it != this->inputTitles.end())
+		{
+
+			// calculating the index of columnName 
+			int index = it - this->inputTitles.begin();
+			// Output the data
+			columns.push_back(this->columns[index]);
+		}
+		else {
+			// If the element is not present in the vector, print out it does not have the column name
+			cout << "You don't have such a column" << endl;
+		}
+
+	}
+	
+
+	return columns;
+}
+
+
+// A quick way to print a given column data.
 void DataTable::printColumnSummary(string columnName) const
 {
 	
@@ -229,9 +258,7 @@ void DataTable::printColumnSummary(string columnName) const
 	{
 		// calculating the index of columnName 
 		int index = it - this->inputTitles.begin();
-		// Output the data
-		//Column *targetColumn = this->columns[index]; // Here we assign it to another address
-		//targetColumn.printUniques();              
+		// Output the data            
 		this->columns[index].printUniques();
 	}
 	else {
@@ -240,3 +267,38 @@ void DataTable::printColumnSummary(string columnName) const
 	}
 }
 
+/*
+
+	Decision Tree Member Functions
+
+*/
+
+/*
+// Constructor for Data Table Class
+DecisionTree::DecisionTree(vector<Column> X, Column y)
+{
+
+	//this->X = X;   // Here we set the independent variables
+	//this->y = y;   // Here we set the dependent variable
+
+	//for (auto x )
+
+}
+
+
+// Constructor for Data Table Class
+vector<long> DecisionTree::getGiniIndex(Column x) const
+{
+	vector<long> GiniIndex;
+	long p = 0;    // Probability of a given value 
+
+	for (int i = 0; i < x.getUniques().size(); i++)
+	{
+		p = x.getUniqueCounts()[i]/x.getColumnData().size();	// Probability to pick i th outcome
+		GiniIndex.push_back(1. - pow(p, 2) - pow((1 - p), 2));  // Gini Index for i th outcome
+		
+	}
+	return GiniIndex;
+
+}
+*/

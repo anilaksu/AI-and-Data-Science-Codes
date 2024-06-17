@@ -20,7 +20,16 @@ int main()
 	string columnName = "Outlook";
 	weatherData.printColumnSummary(columnName);
 
-	//Column outlookColumn(columnName, weatherData.returnColumn(columnName));
+	vector<string> indepColumnNames{"Outlook", 
+		"Temperature", "Humidity", "Wind"};   // Independent variables
+	string depColumnName{ "Decision" };		  // Dependent variable				    
+	vector<Column> X = weatherData.returnColumns(indepColumnNames);
+	Column y(depColumnName, weatherData.returnColumn(depColumnName));
+
+	for (auto column : X)
+		column.printColumnData();
+
+
 
 	//outlookColumn.printUniques();
 
