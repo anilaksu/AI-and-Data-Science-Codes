@@ -25,6 +25,19 @@ Column::Column(string columnName, vector<string> columnData)
 	this->uniqueCounts = countUniques(); // Here we find the count of unique values
 }
 
+// Sets column for given data
+void Column::setColumn(string columnName, vector<string> columnData)
+{
+	this->columnName = columnName; // Here we set the column name
+
+	// Here we read data line by line before separating column names and data
+	for (string data : columnData)
+		this->columnData.push_back(data);
+
+	this->uniqueValues = findUniques(); // Here we find the unique values
+	this->uniqueCounts = countUniques(); // Here we find the count of unique values
+}
+
 // Returns column data
 vector<string> Column::getColumnData() const
 {
@@ -267,38 +280,3 @@ void DataTable::printColumnSummary(string columnName) const
 	}
 }
 
-/*
-
-	Decision Tree Member Functions
-
-*/
-
-/*
-// Constructor for Data Table Class
-DecisionTree::DecisionTree(vector<Column> X, Column y)
-{
-
-	//this->X = X;   // Here we set the independent variables
-	//this->y = y;   // Here we set the dependent variable
-
-	//for (auto x )
-
-}
-
-
-// Constructor for Data Table Class
-vector<long> DecisionTree::getGiniIndex(Column x) const
-{
-	vector<long> GiniIndex;
-	long p = 0;    // Probability of a given value 
-
-	for (int i = 0; i < x.getUniques().size(); i++)
-	{
-		p = x.getUniqueCounts()[i]/x.getColumnData().size();	// Probability to pick i th outcome
-		GiniIndex.push_back(1. - pow(p, 2) - pow((1 - p), 2));  // Gini Index for i th outcome
-		
-	}
-	return GiniIndex;
-
-}
-*/

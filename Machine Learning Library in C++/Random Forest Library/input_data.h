@@ -22,7 +22,7 @@ public:
 
 	// Constructor
 	Column();
-	Column(string columnName, vector<string> columnData); // For reading name file via COnstructor
+	Column(string columnName, vector<string> columnData); // For building a column via COnstructor
 
 	// Destructor
 	//~Column();
@@ -30,7 +30,7 @@ public:
 	// Member functions
 
 	// Setter functions sets fields in private
-	//virtual void setHeight(double height);
+	virtual void setColumn(string columnName, vector<string> columnData); // For building a column via externally
 
 	// Getter functions access fields in private
 	virtual vector<string> getColumnData() const;					  // Returns column data
@@ -104,40 +104,4 @@ private: // Private member is only accessible within a function
 #endif 
 
 
-#ifndef DECISIONTREE_H
-#define DECISIONTREE_H
 
-class DecisionTree {
-public:
-
-	// Constructor
-	DecisionTree();
-	DecisionTree(vector<Column> X, Column y); //  Constructor
-
-	// Destructor
-	//~DecisionTree();
-
-	// Member functions
-
-	// Setter functions sets fields in private
-	//virtual void setHeight(double height);
-
-	// Getter functions access fields in private
-	//virtual long getInformationEntropy(Column x) const;    // Calculates the information entropy of a given column
-	//virtual vector<long> getGiniIndex(Column x) const;			   // Calculates the information entropy of a given column
-
-	// Output functions
-	//virtual void outputData() const;                          // Outputs the entire dataset
-	//virtual void printColumnSummary(string columnName) const; // Outputs a given column summary
-
-private: // Private member is only accessible within a function
-
-	// Data Members or Fields
-	vector<Column> X;				  // Independent variables
-	Column y;						  // Dependent variable
-	//vector <long> informationEntropy; // Here we store the information entropy for each column
-	//vector<vector<long>> giniIndex;		  // Here we store the Gini Index for each column
-
-}; // end of the class Decision Tree
-
-#endif 
