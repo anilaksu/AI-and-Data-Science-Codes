@@ -20,9 +20,15 @@ int main()
 	vector<string> indepColumnNames{"Outlook", 
 		"Temperature", "Humidity", "Wind"};			  // Independent variables
 	vector<string> depColumnName{ "Decision" };		  // Dependent variable			
-	DecisionTree weatherTree(weatherData, indepColumnNames, depColumnName); // Here we initiate the decision tree model
+	DecisionTree weatherTree(weatherData, 
+		indepColumnNames, depColumnName);			  // Here we initiate the decision tree model
 
 	weatherTree.printGiniIndex();
+
+	for (auto giniOrder : weatherTree.getFeatureOrder())
+		cout << giniOrder << endl;
+
+	weatherTree.setBranches();
 	/*
 	vector<Column> X = weatherData.returnColumns(indepColumnNames);
 	Column y(depColumnName, weatherData.returnColumn(depColumnName));

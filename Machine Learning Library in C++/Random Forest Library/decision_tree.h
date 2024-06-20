@@ -31,11 +31,14 @@ public:
 	// Member functions
 
 	// Setter functions sets fields in private
-	//virtual void setHeight(double height);
+	//virtual long getInformationEntropy(Column x);			// Calculates the information entropy of a given column
+	virtual vector<double> calculateGiniIndex(Column x);    // Calculates the Gini Index of a given column
+	virtual void setBranches();				// Generates branches of a tree structure
+	virtual void setBranchName(string branchName);          // Set the branch name
 
 	// Getter functions access fields in private
-	//virtual long getInformationEntropy(Column x) const;    // Calculates the information entropy of a given column
-	virtual vector<double> calculateGiniIndex(Column x) const;			   // Calculates the information entropy of a given column
+	virtual vector<double> getSortedGiniIndexes() const;  // Returns sorted weighted Gini Index of an entire data set
+	virtual vector<int> getFeatureOrder() const;	      // Returns the order of features in ascending order with respect to Gini Index
 
 	// Output functions
 	virtual void printGiniIndex() const;                          // Outputs the entire dataset
@@ -44,10 +47,17 @@ public:
 private: // Private member is only accessible within a function
 
 	// Data Members or Fields
+	string branchName{"Root Node"};
+	vector<string> X_columns;      // Independent column names
+	vector<string> y_columns;      // Dependent column names
 	vector<Column> X;				  // Independent variables
 	vector<Column> y;				  // Dependent variable
 	//vector <long> informationEntropy; // Here we store the information entropy for each column
 	vector<vector<double>> giniIndex;		  // Here we store the Gini Index for each column
+	vector<double> weightedGiniIndex;		  // Here we store the weighted Gini Index for each column
+
+	// Branches of the tree
+	vector<DecisionTree> branches;
 
 }; // end of the class Decision Tree
 

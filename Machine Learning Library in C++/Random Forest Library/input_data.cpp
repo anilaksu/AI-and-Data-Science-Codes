@@ -38,6 +38,12 @@ void Column::setColumn(string columnName, vector<string> columnData)
 	this->uniqueCounts = countUniques(); // Here we find the count of unique values
 }
 
+// Returns column name
+string Column::getColumnName() const
+{
+	return this->columnName;
+}
+
 // Returns column data
 vector<string> Column::getColumnData() const
 {

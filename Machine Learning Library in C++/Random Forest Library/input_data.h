@@ -33,6 +33,7 @@ public:
 	virtual void setColumn(string columnName, vector<string> columnData); // For building a column via externally
 
 	// Getter functions access fields in private
+	virtual string getColumnName() const;					  // Returns column name
 	virtual vector<string> getColumnData() const;					  // Returns column data
 	virtual void printColumnData() const;					  // Returns column data
 	virtual vector<string> findUniques();				  // Finds the unique values in column data
